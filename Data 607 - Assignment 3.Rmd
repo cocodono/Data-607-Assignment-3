@@ -1,0 +1,74 @@
+---
+title: "Assignment 3 - Data 607"
+author: "Coco Donovan"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Identifying Majors with "DATA" or "STATISTICS"
+
+```{r}
+library(readr)
+library(tidyverse)
+
+majors_url = "https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/majors-list.csv"
+majors <- read_csv(majors_url)
+
+str_subset(majors$Major, pattern = "(DATA|STATISTICS)")
+```
+
+## 2. Converting Data into a vector
+
+```{r}
+library(stringr)
+
+fruits <- '[1] "bell pepper"  "bilberry"     "blackberry"   "blood orange"
+[5] "blueberry"    "cantaloupe"   "chili pepper" "cloudberry"  
+[9] "elderberry"   "lime"         "lychee"       "mulberry"    
+[13] "olive"        "salal berry"'
+
+fruits_vector <- str_extract(fruits, "\".*\"")
+```
+
+
+## 3. Describe, in words, what these expressions will match:
+
+1. Any character repeated three times (except a newline character).
+2. Any two non-newline characters followed by the same two 
+non-newline characters in reverse order.
+3. Any two non-newline characters repeated in the same order (two characters
+followed by the same characters in the same order).
+4. Any non-newline character followed by any non-newline character, followed by
+the original character, followed by any non-newline character and finally 
+followed by the original character.
+5. A pattern starting with any three non-newline characters, followed by any 
+amount (including zero) of non-newline characters. This pattern is then ended by
+the three characters that started the pattern, but in reverse order.
+
+
+## 4. Construct regular expressions to match words that:
+
+Note: I am operating with the rule that words can only contain letters
+
+```{r}
+words <-c('ono', 'jelly', 'pop', 'lol', 'theeth', 'jhoojh', 'qafqa', "eee", 
+          "elelel", "olpojo", "jokollo", 'chchlop')
+
+# 4.1: Start and end with the same character
+same_first_last <- str_subset(words,"^([a-zA-Z])[a-zA-Z]*\\1$")
+same_first_last
+
+# 4.2: Contain a repeated pair of letters (e.g. "church" contains "ch" repeated twice.)
+repeated_pair <- str_subset(words, "([a-zA-Z][a-zA-Z])[a-zA-Z]*\\1")
+repeated_pair
+
+# 4.3: Contain one letter repeated in at least three places (e.g. "eleven" contains three "e"s.)
+same_letter_3x <- str_subset(words, '([a-zA-Z])[a-zA-Z]*\\1[a-zA-Z]*\\1')
+same_letter_3x
+```
